@@ -1,0 +1,149 @@
+@import '@fontsource/fira-mono';
+
+:root {
+	--spacing-xxxs: 0.5rem;
+	--spacing-xxs: 1rem;
+	--spacing-xs: 1.5rem;
+	--spacing-s: 3rem;
+	--spacing-m: 6rem;
+	--spacing-l: 9rem;
+	--spacing-xl: 12rem;
+	--spacing-xxl: 15rem;
+	--spacing-xxxl: 18rem;
+	--color-white: #ffffff;
+	--color-grey-600: #9797a0;
+	--color-grey-400: #d3d3d3;
+	--color-green: #69eaad;
+	--color-black: #000000;
+	--color-black-800: #262739;
+	--color-black-600: #2e303f;
+	--color-black-400: #4e505f;
+	--color-red: #e34f5a;
+	--font-weight-regular: 400;
+	--font-weight-bold: 700;
+	--font-weight-black: 900;
+	--main-border-radius: 1rem;
+	--main-box-shadow: 0 2px 5px rgba(36, 38, 4, 0.3);
+	--big-box-shadow: 0 9px 5px rgba(36, 38, 4, 0.4);
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	min-height: 100vh;
+	margin: 0;
+	background-color: var(--color-black-800);
+	color: var(--color-white);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+input,
+button {
+	font-size: inherit;
+	font-family: inherit;
+	border: none;
+	background: transparent;
+	box-sizing: border-box;
+	outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+	margin: 0;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+body.no-menu .menu-icon {
+	display: none;
+}
+
+.enhance-click {
+	cursor: pointer;
+}
+.enhance-click:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	padding: var(--spacing-xs);
+}
+
+.back-button {
+	position: absolute;
+	top: 2.5rem;
+	left: var(--spacing-xs);
+}
+
+.page-title {
+	position: absolute;
+	top: var(--spacing-s);
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 1.8rem;
+}
+
+.styled-form {
+	margin-top: var(--spacing-l);
+}
+
+.styled-form .input-group {
+	margin-top: var(--spacing-m);
+}
+
+.styled-form .input-group label {
+	font-size: 1.4rem;
+	font-weight: var(--font-weight-bold);
+}
+
+.styled-form .input-group .input {
+	width: 100%;
+	color: var(--color-white);
+	background-color: var(--color-black-600);
+	font-size: 1.2rem;
+	padding: var(--spacing-xs);
+	margin-top: var(--spacing-xs);
+	border-radius: var(--main-border-radius);
+}
+
+.styled-form .input-group .input::placeholder {
+	color: var(--color-grey-600);
+}
+
+.styled-form .button-container {
+	text-align: center;
+}
+
+.styled-form .form-button {
+	margin-top: var(--spacing-l);
+}
+
+.no-data {
+	font-size: 1.4rem;
+	text-align: center;
+	background: var(--color-black-600);
+	border-radius: var(--main-border-radius);
+	padding: var(--spacing-xs);
+}
+
+.no-data a {
+	color: var(--color-green);
+}
