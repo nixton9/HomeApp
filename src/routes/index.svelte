@@ -29,7 +29,7 @@
 		isLoadingDevices = true
 
 		const goveeResponse = await fetch('api/govee')
-		const discoveryResponse = await fetch('api/nanoleaf/discovery')
+
 		const nanoleafResponse = await fetch('/api/nanoleaf', {
 			method: 'POST',
 			headers: {
