@@ -25,14 +25,10 @@ const getDevice = (name: string, ip: string): GetDeviceRequest => {
 			}
 		})
 		.catch((err) => {
-			return {
-				data: err,
-				msg: err.message
-			}
-			/* if (isDeviceOffline(err)) {
+			if (isDeviceOffline(err)) {
 				const offlineDevice = {
 					name,
-					model: '',
+					model: 'NL42',
 					state: { on: { value: false }, brightness: { value: 0 } }
 				}
 				return {
@@ -40,7 +36,7 @@ const getDevice = (name: string, ip: string): GetDeviceRequest => {
 				}
 			} else {
 				return generateError(ErrorMessage.GENERIC, 'Nanoleaf')
-			} */
+			}
 		})
 }
 
