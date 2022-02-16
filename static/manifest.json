@@ -27,6 +27,6 @@
 	"background_color": "#262739",
 	"display": "standalone",
 	"scope": "/",
-	"theme_color": "#69EAAD",
+	"theme_color": "#2e303f",
 	"description": "App to control my home's smart devices"
 }
