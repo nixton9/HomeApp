@@ -17,7 +17,7 @@
 
 	let shapesAddress: string
 	let devicesList: Device[]
-	let isLoadingDevices = false
+	let isLoadingDevices = true
 
 	shapesDevice.subscribe((newDevice) => (shapesAddress = newDevice))
 
@@ -26,8 +26,6 @@
 	const changeTab = (tab: HomeTabs) => (activeTab = tab.toUpperCase() as HomeTabs)
 
 	onMount(async () => {
-		isLoadingDevices = true
-
 		const goveeResponse = await fetch('api/govee')
 
 		const nanoleafResponse = await fetch('/api/nanoleaf', {
