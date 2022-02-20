@@ -13,7 +13,11 @@
 <div class="device-card">
 	<div class="top-row">
 		<h3>{device.name}</h3>
-		<Toggle checked={device.turnedOn} onChange={(val) => toggle(val, device, true)} />
+		<Toggle
+			checked={device.turnedOn}
+			onChange={(val) => toggle(val, device, true)}
+			isDisabled={!device.online}
+		/>
 	</div>
 
 	<a href="/device/{device.address}">
@@ -29,9 +33,14 @@
 				value={device.brightness}
 				min={1}
 				onChange={(val) => changeBrightness(val, device)}
+				isDisabled={!device.online}
 			/>
 		</div>
-		<ColorInput value={device.color} onChange={(val) => changeColor(val, device)} />
+		<ColorInput
+			value={device.color}
+			onChange={(val) => changeColor(val, device)}
+			isDisabled={!device.online}
+		/>
 	</div>
 </div>
 

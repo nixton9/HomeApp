@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit'
 import { NanoleafClient } from 'nanoleaf-client'
-import { parseNanoleafDevice } from '../../../utils/parsers'
-import { generateError, isDeviceOffline } from '../../../utils/helpers'
+import { parseNanoleafDevice } from '$utils/parsers'
+import { generateError, isDeviceOffline } from '$utils/helpers'
 import { GetDeviceRequest, ErrorMessage } from '$lib/types.d'
 
 const TOKEN = import.meta.env.VITE_SHAPES_TOKEN as string

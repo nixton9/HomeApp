@@ -22,7 +22,7 @@
 
 	<nav>
 		<ul>
-			<a href="/add-mode" on:click={() => close()}><li><PlusIcon /> Add mode</li></a>
+			<a href="/add-mode/-" on:click={() => close()}><li><PlusIcon /> Add mode</li></a>
 			<a href="/set-shapes" on:click={() => close()}><li><BulbIcon /> Set Shapes device</li></a>
 			<a href="/set-name" on:click={() => close()}><li><UserIcon /> Set User name</li></a>
 		</ul>

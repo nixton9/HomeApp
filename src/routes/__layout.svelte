@@ -5,7 +5,6 @@
 	import NotificationToast from '$components/Notification.svelte'
 	import { notification, setInitial } from '$stores/notifications'
 	import type { Notification } from '$lib/types.d'
-	import { NotificationTypes } from '$lib/types.d'
 
 	let notificationObj: Notification
 

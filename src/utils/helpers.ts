@@ -46,6 +46,16 @@ export const getColorWithContrast = (color: string): string => {
 	return contrastRatio >= 0.5 ? 'var(--color-black)' : 'var(--color-white)'
 }
 
+export const debounce = (func: (arg?: any) => void, timeout = 300) => {
+	let timer
+	return (...args) => {
+		clearTimeout(timer)
+		timer = setTimeout(() => {
+			func.apply(this, args)
+		}, timeout)
+	}
+}
+
 export const generateError = (type: ErrorMessage, deviceName?: string): { error: string } => {
 	let error
 

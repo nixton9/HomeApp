@@ -1,5 +1,5 @@
 import Govee from 'node-govee-led'
-import { generateError } from '../../../utils/helpers'
+import { generateError } from '$utils/helpers'
 import { ErrorMessage } from '$lib/types.d'
 import type { RequestHandler } from '@sveltejs/kit'
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let checked: boolean
 	export let onChange: (val: boolean) => void
+	export let isDisabled: boolean = false
 
 	const handleToggleChange = (e) => {
 		const target = e.target as HTMLInputElement
@@ -8,16 +9,16 @@
 	}
 </script>
 
-<div class="toggle">
+<div class="toggle {isDisabled ? 'disabled' : ''}">
 	<div class="toggle-switch-container">
 		<label class="toggle-switch">
-			<input type="checkbox" {checked} on:change={handleToggleChange} />
+			<input type="checkbox" {checked} on:change={handleToggleChange} disabled={isDisabled} />
 			<span class="slider" />
 		</label>
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.toggle-switch {
 		position: relative;
 		display: inline-block;
@@ -59,5 +60,13 @@
 	input:checked + .slider:before {
 		background-color: var(--color-green);
 		transform: translateX(1.5rem);
+	}
+
+	.disabled {
+		opacity: 0.2;
+
+		.slider {
+			cursor: default;
+		}
 	}
 </style>

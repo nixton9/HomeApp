@@ -129,11 +129,14 @@ body.no-menu .menu-icon {
 }
 
 .styled-form .button-container {
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: var(--spacing-l);
 }
 
-.styled-form .form-button {
-	margin-top: var(--spacing-l);
+.styled-form .button-container button {
+	height: 4.6rem;
 }
 
 .no-data {

@@ -1,20 +1,28 @@
 <script lang="ts">
+	import { debounce } from '$utils/helpers'
+
 	export let value: string | null
 	export let onChange: (val: string) => void
+	export let isDisabled: boolean = false
 	export let isFullWidth: boolean = false
 
-	const handleInputChange = (e) => {
-		onChange(e.target.value)
-	}
+	const handleInputChange = debounce((e) => onChange(e.target.value))
+
+	$: previewClassNames = `color-preview ${isDisabled ? 'disabled' : ''} ${
+		isFullWidth ? 'full-width' : ''
+	} ${!value ? 'no-value' : ''}`
 </script>
 
 <div class="color-input">
 	<label>
-		<div
-			class="color-preview {isFullWidth ? 'full-width' : ''} {!value ? 'no-value' : ''}"
-			style="background-color: {value || '#ffffff'}"
+		<div class={previewClassNames} style="background-color: {value || '#3c3e58'}" />
+		<input
+			type="color"
+			id="colorinput"
+			{value}
+			on:change={handleInputChange}
+			disabled={isDisabled}
 		/>
-		<input type="color" id="colorinput" {value} on:change={handleInputChange} />
 	</label>
 </div>
 
@@ -26,6 +34,11 @@
 		border-radius: 50%;
 		overflow: hidden;
 		cursor: pointer;
+
+		&.disabled {
+			opacity: 0.1;
+			cursor: default;
+		}
 
 		&.full-width {
 			width: 100%;

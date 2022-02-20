@@ -29,16 +29,26 @@
 
 		setMessage(`Mode '${mode.name}' activated!'`)
 	}
+
+	const handleModeDelete = (id: string) => {
+		if (confirm('Are you sure you want to delete this mode?')) {
+			const newModes = modesList.filter((mode) => mode.id !== id)
+			modes.set(newModes)
+		}
+	}
 </script>
 
 {#if modesList.length}
 	<div class="modes-list">
 		{#each modesList as mode}
-			<ModeCard {mode} onClick={handleModeClick} />
+			<ModeCard {mode} onClick={handleModeClick} onDelete={handleModeDelete} />
 		{/each}
 	</div>
+	<a href="/add-mode/-" class="add-mode">
+		<PlusIcon />
+	</a>
 {:else}
-	<p class="no-data">There are no modes available. Create one <a href="/add-mode">here</a>.</p>
+	<p class="no-data">There are no modes available. Create one <a href="/add-mode/-">here</a>.</p>
 {/if}
 
 <style lang="scss">
@@ -47,6 +57,20 @@
 		grid-template-columns: 1fr 1fr;
 		gap: var(--spacing-xs);
 		margin-top: 2rem;
+	}
+
+	.add-mode {
+		display: block;
+		margin-top: var(--spacing-s);
+
+		:global(svg) {
+			width: auto;
+			height: 2rem;
+		}
+
+		:global(svg rect) {
+			fill: var(--color-grey-600);
+		}
 	}
 
 	.no-data {

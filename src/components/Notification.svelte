@@ -21,8 +21,7 @@
 		position: fixed;
 		top: 3rem;
 		left: 50%;
-		width: 85%;
-		padding: 2.5rem;
+		padding: 2rem var(--spacing-s);
 		display: flex;
 		align-items: center;
 		gap: 2rem;
@@ -34,7 +33,8 @@
 		animation: slideIn 0.5s ease;
 
 		:global(svg) {
-			width: 6rem;
+			width: auto;
+			height: 3.3rem;
 		}
 
 		p {

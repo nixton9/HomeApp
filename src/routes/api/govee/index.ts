@@ -1,6 +1,6 @@
 import Govee from 'node-govee-led'
-import { parseGoveeDevice } from '../../../utils/parsers'
-import { generateError } from '../../../utils/helpers'
+import { parseGoveeDevice } from '$utils/parsers'
+import { generateError } from '$utils/helpers'
 import { GoveeDeviceList, GoveeDeviceState, GetDeviceRequest, ErrorMessage } from '$lib/types.d'
 
 const API_KEY = import.meta.env.VITE_GOVEE_API_KEY
