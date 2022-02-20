@@ -9,7 +9,11 @@
 	export let onDelete: (id: string) => void
 </script>
 
-<div class="mode-card" on:click={() => onClick(mode)} style="background: {mode.color}">
+<div
+	class="mode-card contrast-hover"
+	on:click={() => onClick(mode)}
+	style="background: {mode.color}"
+>
 	<a
 		href={`/add-mode/${mode.id}`}
 		on:click|stopPropagation

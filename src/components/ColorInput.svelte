@@ -8,7 +8,7 @@
 
 	const handleInputChange = debounce((e) => onChange(e.target.value))
 
-	$: previewClassNames = `color-preview ${isDisabled ? 'disabled' : ''} ${
+	$: previewClassNames = `color-preview contrast-hover ${isDisabled ? 'disabled' : ''} ${
 		isFullWidth ? 'full-width' : ''
 	} ${!value ? 'no-value' : ''}`
 </script>

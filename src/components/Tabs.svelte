@@ -48,5 +48,10 @@
 				width: 100%;
 			}
 		}
+
+		&:hover,
+		&:active {
+			color: var(--color-white);
+		}
 	}
 </style>

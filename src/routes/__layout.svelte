@@ -39,5 +39,13 @@
 		position: absolute;
 		top: var(--spacing-s);
 		right: var(--spacing-s);
+
+		&:hover :global(svg circle),
+		&:active :global(svg circle) {
+			transform: translate(10px, 10px);
+		}
+		:global(svg circle) {
+			transition: transform 0.3s ease;
+		}
 	}
 </style>

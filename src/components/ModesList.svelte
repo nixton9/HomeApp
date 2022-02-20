@@ -63,6 +63,11 @@
 		display: block;
 		margin-top: var(--spacing-s);
 
+		&:hover :global(svg rect),
+		&:active :global(svg rect) {
+			fill: var(--color-green);
+		}
+
 		:global(svg) {
 			width: auto;
 			height: 2rem;
@@ -70,6 +75,7 @@
 
 		:global(svg rect) {
 			fill: var(--color-grey-600);
+			transition: fill 0.3s ease;
 		}
 	}
 

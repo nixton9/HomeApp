@@ -17,6 +17,11 @@
 <style lang="scss">
 	.slider-input {
 		width: 100%;
+
+		&:hover input::-webkit-slider-thumb,
+		&:active input::-webkit-slider-thumb {
+			background: var(--color-grey-400);
+		}
 	}
 
 	input {
@@ -37,6 +42,7 @@
 		background: var(--color-grey-600);
 		cursor: pointer;
 		border-radius: 50%;
+		transition: background 0.3s ease;
 	}
 
 	.disabled {

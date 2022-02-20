@@ -3,7 +3,7 @@
 	export let onClick: () => void = () => null
 </script>
 
-<button on:click={onClick} class="form-button">{text}</button>
+<button on:click={onClick} class="form-button contrast-hover">{text}</button>
 
 <style lang="scss">
 	button {

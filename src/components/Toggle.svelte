@@ -43,6 +43,11 @@
 		border-radius: 3.4rem;
 		-webkit-transition: 0.4s;
 		transition: 0.4s;
+
+		&:hover::before,
+		&:active::before {
+			background-color: var(--color-grey-400);
+		}
 	}
 
 	.slider:before {

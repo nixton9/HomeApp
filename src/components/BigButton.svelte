@@ -4,7 +4,10 @@
 	export let accent: boolean = false
 </script>
 
-<button on:click={onClick} class={accent ? 'accent big-button' : 'big-button'}>
+<button
+	on:click={onClick}
+	class={accent ? 'accent big-button contrast-hover' : 'big-button contrast-hover'}
+>
 	<slot name="icon" />
 	<span>{text}</span>
 </button>

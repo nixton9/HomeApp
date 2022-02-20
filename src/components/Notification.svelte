@@ -21,10 +21,12 @@
 		position: fixed;
 		top: 3rem;
 		left: 50%;
-		padding: 2rem var(--spacing-s);
+		width: fit-content;
+		max-width: 90%;
 		display: flex;
 		align-items: center;
 		gap: 2rem;
+		padding: 2rem var(--spacing-s);
 		background: var(--color-black-600);
 		border-radius: var(--main-border-radius);
 		box-shadow: var(--big-box-shadow);
@@ -35,6 +37,7 @@
 		:global(svg) {
 			width: auto;
 			height: 3.3rem;
+			flex-shrink: 0;
 		}
 
 		p {
