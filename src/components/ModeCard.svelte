@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { getColorWithContrast } from '$utils/helpers'
 	import EditIcon from '$icons/edit.svelte'
 	import TrashIcon from '$icons/trash.svelte'
+	import { getModeBGColor } from '$utils/helpers'
 	import type { Mode } from '$lib/types.d'
 
 	export let mode: Mode
@@ -12,26 +12,17 @@
 <div
 	class="mode-card contrast-hover"
 	on:click={() => onClick(mode)}
-	style="background: {mode.color}"
+	style="background: {getModeBGColor(mode.devicesColors)}"
 >
-	<a
-		href={`/add-mode/${mode.id}`}
-		on:click|stopPropagation
-		class="edit enhance-click"
-		style="fill: {getColorWithContrast(mode.color)}"
-	>
+	<a href={`/add-mode/${mode.id}`} on:click|stopPropagation class="edit enhance-click">
 		<EditIcon />
 	</a>
 
-	<span
-		on:click|stopPropagation={() => onDelete(mode.id)}
-		class="delete enhance-click"
-		style="stroke: {getColorWithContrast(mode.color)}"
-	>
+	<span on:click|stopPropagation={() => onDelete(mode.id)} class="delete enhance-click">
 		<TrashIcon />
 	</span>
 
-	<h3 style="color: {getColorWithContrast(mode.color)}">{mode.name}</h3>
+	<h3>{mode.name}</h3>
 </div>
 
 <style lang="scss">
@@ -50,6 +41,7 @@
 
 	h3 {
 		font-size: 1.6rem;
+		color: var(--color-white);
 	}
 
 	.edit,
@@ -62,6 +54,7 @@
 
 	.edit {
 		left: var(--spacing-xxs);
+		fill: var(--color-white);
 
 		:global(svg path) {
 			fill: inherit;
@@ -70,6 +63,7 @@
 
 	.delete {
 		right: var(--spacing-xxs);
+		stroke: var(--color-white);
 
 		:global(svg line),
 		:global(svg g) {

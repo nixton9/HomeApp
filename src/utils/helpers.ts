@@ -46,6 +46,16 @@ export const getColorWithContrast = (color: string): string => {
 	return contrastRatio >= 0.5 ? 'var(--color-black)' : 'var(--color-white)'
 }
 
+export const getModeBGColor = (devicesColors: { color: string }[]) => {
+	if (devicesColors.length > 1) {
+		let colorString = 'linear-gradient(45deg'
+		devicesColors.forEach((dev) => (colorString += `,${dev.color}`))
+		colorString += ')'
+		return colorString
+	}
+	return devicesColors[0].color
+}
+
 export const debounce = (func: (arg?: any) => void, timeout = 300) => {
 	let timer
 	return (...args) => {

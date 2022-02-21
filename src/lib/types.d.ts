@@ -116,7 +116,6 @@ export enum DeviceType {
 export interface Mode {
 	id: string
 	name: string
-	color: string
 	devicesColors: { address: string; color: string }[]
 }
 

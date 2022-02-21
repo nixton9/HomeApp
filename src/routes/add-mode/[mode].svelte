@@ -31,7 +31,6 @@
 
 	$: pageTitle = selectedMode ? `Edit mode ${selectedMode.name}` : 'Add new mode'
 	$: name = selectedMode ? selectedMode.name : ''
-	$: modeColor = selectedMode ? selectedMode.color : '#ffffff'
 	$: devicesColors = selectedMode ? selectedMode.devicesColors : []
 
 	const getDeviceColor = (device: Device): string | null => {
@@ -58,7 +57,6 @@
 			const newMode = {
 				id: selectedMode ? selectedMode.id : getRandomId(4),
 				name,
-				color: modeColor,
 				devicesColors
 			}
 			modes.update((modes) => [
@@ -119,11 +117,6 @@
 					placeholder="Write a name"
 					required
 				/>
-			</div>
-
-			<div class="input-group">
-				<label for="colorinput">Mode color</label>
-				<ColorInput value={modeColor} onChange={(val) => (modeColor = val)} isFullWidth />
 			</div>
 
 			<div class="input-group devices-colors">
