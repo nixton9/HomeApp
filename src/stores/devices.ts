@@ -5,7 +5,6 @@ export const devices = writable([])
 export const isLoadingDevices = writable(false)
 
 devices.subscribe((newDevices) => {
-	console.log('new', newDevices)
 	if (browser) {
 		window.sessionStorage.setItem('devices', JSON.stringify(newDevices))
 	}
