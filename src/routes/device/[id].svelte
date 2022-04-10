@@ -5,6 +5,7 @@
 	import SliderInput from '$components/SliderInput.svelte'
 	import ColorInput from '$components/ColorInput.svelte'
 	import BulbIcon from '$icons/bulb.svelte'
+	import TemperatureIcon from '$icons/temperature.svelte'
 	import ChevronIcon from '$icons/chevron.svelte'
 	import { devicesIcons } from '$icons/devicesIcons'
 	import { devices } from '$stores/devices'
@@ -12,12 +13,14 @@
 		toggle,
 		changeColor,
 		changeBrightness,
+		changeColorTemperature,
 		getEffects,
 		changeEffect
 	} from '$utils/deviceRequests/index'
 	import type { Device } from '$lib/types.d'
 	import { DeviceType } from '$lib/types.d'
 	import { onMount, onDestroy } from 'svelte'
+	import Yeelight from '$components/icons/yeelight.svelte'
 
 	const deviceAddress = $page.params.id
 
@@ -69,13 +72,27 @@
 				<svelte:component this={devicesIcons[device.model]} />
 			</div>
 
-			<div class="slider">
-				<BulbIcon />
-				<SliderInput
-					value={device.brightness}
-					min={1}
-					onChange={(val) => changeBrightness(val, device, true)}
-				/>
+			<div class="slider-container">
+				<div class="slider">
+					<BulbIcon />
+					<SliderInput
+						value={device.brightness}
+						min={1}
+						onChange={(val) => changeBrightness(val, device, true)}
+					/>
+				</div>
+
+				{#if device.type === DeviceType.YEELIGHT}
+					<div class="slider">
+						<TemperatureIcon />
+						<SliderInput
+							value={device.colorTemperature}
+							min={1700}
+							max={6500}
+							onChange={(val) => changeColorTemperature(val, device, true)}
+						/>
+					</div>
+				{/if}
 			</div>
 
 			{#if device.type === DeviceType.NANOLEAF && effectsList}
@@ -100,6 +117,10 @@
 <style lang="scss">
 	section {
 		padding: var(--spacing-s);
+
+		@media screen and (max-width: 400px) {
+			padding: var(--spacing-xs);
+		}
 	}
 
 	.error {
@@ -140,14 +161,20 @@
 		}
 	}
 
+	.slider-container {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-s);
+	}
+
 	.slider {
 		display: flex;
 		align-items: center;
+		flex: 1;
 
 		:global(svg) {
 			width: auto;
 			height: 3.5rem;
-			margin-left: var(--spacing-xxxs);
 			margin-right: var(--spacing-xs);
 		}
 

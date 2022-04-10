@@ -4,10 +4,13 @@ import { DeviceType } from '$lib/types.d'
 import type { Device } from '$lib/types.d'
 
 export const changeBrightness = (brightness: number, device: Device, withNotification = false) => {
-	if (device.type === DeviceType.GOVEE) {
-		return changeBrightnessGovee(brightness, device.address, device.model, withNotification)
-	} else if (device.type === DeviceType.NANOLEAF) {
-		return changeBrightnessNanoleaf(brightness, device.address, withNotification)
+	switch (device.type) {
+		case DeviceType.GOVEE:
+			return changeBrightnessGovee(brightness, device.address, device.model, withNotification)
+		case DeviceType.NANOLEAF:
+			return changeBrightnessNanoleaf(brightness, device.address, withNotification)
+		case DeviceType.YEELIGHT:
+			return changeBrightnessYeelight(brightness, device.address, device.port, withNotification)
 	}
 }
 
@@ -62,6 +65,33 @@ const changeBrightnessNanoleaf = async (
 		body: JSON.stringify({
 			brightness: brightness,
 			ip: address
+		})
+	})
+		.then((res) => res.json())
+		.then((data) => {
+			if (data.success) {
+				handleDeviceUpdate(brightness, address, withNotification)
+			} else {
+				setError(data.error)
+			}
+		})
+}
+
+const changeBrightnessYeelight = async (
+	brightness: number,
+	address: string,
+	port: number,
+	withNotification: boolean
+) => {
+	await fetch('/api/yeelight/brightness', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			brightness,
+			address,
+			port
 		})
 	})
 		.then((res) => res.json())

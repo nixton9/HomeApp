@@ -4,10 +4,13 @@ import { DeviceType } from '$lib/types.d'
 import type { Device } from '$lib/types.d'
 
 export const toggle = (state: boolean, device: Device, withNotification = false) => {
-	if (device.type === DeviceType.GOVEE) {
-		return toggleGovee(state, device.address, device.model, withNotification)
-	} else if (device.type === DeviceType.NANOLEAF) {
-		return toggleNanoleaf(state, device.address, withNotification)
+	switch (device.type) {
+		case DeviceType.GOVEE:
+			return toggleGovee(state, device.address, device.model, withNotification)
+		case DeviceType.NANOLEAF:
+			return toggleNanoleaf(state, device.address, withNotification)
+		case DeviceType.YEELIGHT:
+			return toggleYeelight(state, device.address, device.port, withNotification)
 	}
 }
 
@@ -57,6 +60,32 @@ const toggleNanoleaf = async (state: boolean, address: string, withNotification:
 		body: JSON.stringify({
 			state: state,
 			ip: address
+		})
+	})
+		.then((res) => res.json())
+		.then((data) => {
+			if (data.success) {
+				handleDeviceUpdate(state, address, withNotification)
+			} else {
+				setError(data.error)
+			}
+		})
+}
+
+const toggleYeelight = async (
+	state: boolean,
+	address: string,
+	port: number,
+	withNotification: boolean
+) => {
+	await fetch('/api/yeelight/toggle', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			address,
+			port
 		})
 	})
 		.then((res) => res.json())

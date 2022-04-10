@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
+	import { browser } from '$app/env'
 	import { devices, isLoadingDevices } from '$stores/devices'
 	import { shapesDevice } from '$stores/shapes'
 
@@ -14,6 +15,7 @@
 			isLoadingDevices.set(true)
 
 			const goveeResponse = await fetch('/api/govee')
+			const yeelightResponse = await fetch('/api/yeelight')
 			const nanoleafResponse = await fetch('/api/nanoleaf', {
 				method: 'POST',
 				headers: {
@@ -26,10 +28,12 @@
 			})
 
 			const goveeData = await goveeResponse.json()
+			const yeelightData = await yeelightResponse.json()
 			const nanoleafData = await nanoleafResponse.json()
 			const allDevices = [
-				...(goveeData.data && goveeData.data),
-				...(nanoleafData.data && nanoleafData.data)
+				...(goveeData.data ? goveeData.data : []),
+				...(yeelightData.data ? yeelightData.data : []),
+				...(nanoleafData.data ? nanoleafData.data : [])
 			]
 
 			devices.set(allDevices)

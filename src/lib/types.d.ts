@@ -90,6 +90,22 @@ export interface NanoleafEffectPalette {
 	brightness: number
 }
 
+export interface YeelightDeviceData {
+	ip: string
+	port: number
+	name: string
+	model: string
+	state: YeelightState
+}
+
+export interface YeelightState {
+	on: string
+	brightness: string
+	hue: string
+	sat: string
+	ct: string
+}
+
 export interface Device {
 	address: string
 	name: string
@@ -100,7 +116,9 @@ export interface Device {
 	color: string
 	type: DeviceType
 	token?: string
+	port?: number
 	effect?: string
+	colorTemperature?: number
 }
 
 export interface GetDeviceRequest {
@@ -110,7 +128,8 @@ export interface GetDeviceRequest {
 
 export enum DeviceType {
 	GOVEE = 'govee',
-	NANOLEAF = 'nanoleaf'
+	NANOLEAF = 'nanoleaf',
+	YEELIGHT = 'yeelight'
 }
 
 export interface Mode {

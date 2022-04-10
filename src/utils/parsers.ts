@@ -5,9 +5,11 @@ import {
 	NanoleafDeviceData,
 	NanoleafEffect,
 	NanoleafEffectPalette,
-	NanoleafState
+	NanoleafState,
+	YeelightDeviceData,
+	YeelightState
 } from '$lib/types.d'
-import { HSBToRGB, RGBToHEX, hasProperty } from './helpers'
+import { HSBToRGB, RGBToHEX, hasProperty, base64ToText } from './helpers'
 
 export const parseGoveeDevice = (
 	device: GoveeDeviceData,
@@ -70,5 +72,26 @@ const parseNanoleafEffectColor = (palette: NanoleafEffectPalette[]): string | nu
 		return RGBToHEX(r, g, b)
 	}
 
+	return null
+}
+
+export const parseYeelightDevice = (device: YeelightDeviceData): Device => ({
+	address: device.ip,
+	port: device.port,
+	name: base64ToText(device.name),
+	model: device.model,
+	online: true,
+	turnedOn: device.state.on === 'on',
+	brightness: Number(device.state.brightness),
+	type: DeviceType.YEELIGHT,
+	color: parseYeelightColor(device.state),
+	colorTemperature: parseInt(device.state.ct)
+})
+
+const parseYeelightColor = (state: YeelightState): string | null => {
+	if (hasProperty(state, 'brightness') && hasProperty(state, 'hue') && hasProperty(state, 'sat')) {
+		const { r, g, b } = HSBToRGB(Number(state.hue), Number(state.sat), Number(state.brightness))
+		return RGBToHEX(r, g, b)
+	}
 	return null
 }

@@ -15,8 +15,8 @@ export const HSBToRGB = (
 	saturation /= 100
 	brightness /= 100
 
-	const k = (n) => (n + hue / 60) % 6
-	const f = (n) => brightness * (1 - saturation * Math.max(0, Math.min(k(n), 4 - k(n), 1)))
+	const k = (n: number) => (n + hue / 60) % 6
+	const f = (n: number) => brightness * (1 - saturation * Math.max(0, Math.min(k(n), 4 - k(n), 1)))
 
 	return {
 		r: Math.round(255 * f(5)),
@@ -33,6 +33,19 @@ export const RGBToHEX = (r: number, g: number, b: number) =>
 			return hex.length === 1 ? '0' + hex : hex
 		})
 		.join('')
+
+export const HEXToRGB = (hex: string) => {
+	const bigint = parseInt(hex.replace('#', ''), 16)
+	const r = (bigint >> 16) & 255
+	const g = (bigint >> 8) & 255
+	const b = bigint & 255
+
+	return {
+		r,
+		g,
+		b
+	}
+}
 
 export const getColorWithContrast = (color: string): string => {
 	const hexCode = color.charAt(0) === '#' ? color.substr(1, 6) : color
@@ -57,8 +70,8 @@ export const getModeBGColor = (devicesColors: { color: string }[]) => {
 }
 
 export const debounce = (func: (arg?: any) => void, timeout = 300) => {
-	let timer
-	return (...args) => {
+	let timer: NodeJS.Timeout
+	return (...args: any) => {
 		clearTimeout(timer)
 		timer = setTimeout(() => {
 			func.apply(this, args)
@@ -66,8 +79,42 @@ export const debounce = (func: (arg?: any) => void, timeout = 300) => {
 	}
 }
 
+export const base64ToText = (hash: string): string => {
+	if (isStringBase64(hash)) {
+		const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+		let e = {},
+			i: number,
+			b = 0,
+			c: number,
+			x: number,
+			l = 0,
+			a: number,
+			r = '',
+			w = String.fromCharCode,
+			L = hash.length
+
+		for (i = 0; i < 64; i++) {
+			e[A.charAt(i)] = i
+		}
+
+		for (x = 0; x < L; x++) {
+			c = e[hash.charAt(x)]
+			b = (b << 6) + c
+			l += 6
+			while (l >= 8) {
+				;((a = (b >>> (l -= 8)) & 0xff) || x < L - 2) && (r += w(a))
+			}
+		}
+
+		return hash ? r : 'Device'
+	}
+
+	return hash
+}
+
 export const generateError = (type: ErrorMessage, deviceName?: string): { error: string } => {
-	let error
+	let error: string
 
 	switch (type) {
 		case ErrorMessage.GENERIC:
@@ -110,4 +157,10 @@ export const generateError = (type: ErrorMessage, deviceName?: string): { error:
 	return {
 		error
 	}
+}
+
+const isStringBase64 = (str: string) => {
+	const base64Regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
+
+	return base64Regex.test(str)
 }
