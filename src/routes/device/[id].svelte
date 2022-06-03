@@ -20,7 +20,6 @@
 	import type { Device } from '$lib/types.d'
 	import { DeviceType } from '$lib/types.d'
 	import { onMount, onDestroy } from 'svelte'
-	import Yeelight from '$components/icons/yeelight.svelte'
 
 	const deviceAddress = $page.params.id
 
@@ -28,8 +27,21 @@
 	let effectsList: string[]
 	let selectedEffect: string
 
-	devices.subscribe((value) => (devicesList = value))
-	$: device = devicesList.find((dev) => dev.address === deviceAddress)
+	/* 	devices.subscribe((value) => (devicesList = value))
+	$: device = devicesList.find((dev) => dev.address === deviceAddress) */
+
+	/* APAGAR */
+	const device = {
+		address: '1929',
+		name: 'Wall Light',
+		model: 'H6054',
+		online: false,
+		turnedOn: false,
+		brightness: 100,
+		color: 'rgb(255,255,255)',
+		type: 'govee'
+	}
+	/* APAGAR */
 
 	$: if (device && device.type === DeviceType.NANOLEAF) {
 		getEffects(device.address).then((res) => (effectsList = res.data))
@@ -56,70 +68,184 @@
 	<title>Device</title>
 </svelte:head>
 
-{#if device}
-	<section>
-		<a href="/"><button class="back-button enhance-click"><ChevronIcon /></button></a>
+<section class="page">
+	<a href="/"><button class="back-button enhance-click"><ChevronIcon /></button></a>
 
-		<h2 class="page-title">{device.name}</h2>
+	<div class="page-content page-content-flex">
+		{#if device}
+			<h2 class="page-title">{device.name}</h2>
 
-		<div class="device">
-			<div class="top-row">
-				<ColorInput value={device.color} onChange={(val) => changeColor(val, device, true)} />
-				<Toggle checked={device.turnedOn} onChange={(val) => toggle(val, device, true)} />
-			</div>
-
-			<div class="icon {device.turnedOn ? 'active' : !device.online ? 'offline' : ''}">
-				<svelte:component this={devicesIcons[device.model]} />
-			</div>
-
-			<div class="slider-container">
-				<div class="slider">
-					<BulbIcon />
-					<SliderInput
-						value={device.brightness}
-						min={1}
-						onChange={(val) => changeBrightness(val, device, true)}
-					/>
-				</div>
-
-				{#if device.type === DeviceType.YEELIGHT}
-					<div class="slider">
-						<TemperatureIcon />
-						<SliderInput
-							value={device.colorTemperature}
-							min={1700}
-							max={6500}
-							onChange={(val) => changeColorTemperature(val, device, true)}
-						/>
+			<div class="device">
+				<div class="first-card card">
+					<div
+						class="icon {!device.online ? 'offline' : !device.turnedOn ? 'turnedOff' : ''}"
+						style="color: {device.color ? device.color : ''}"
+					>
+						<svelte:component this={devicesIcons[device.model]} />
 					</div>
-				{/if}
-			</div>
 
-			{#if device.type === DeviceType.NANOLEAF && effectsList}
-				<div class="effects-select">
-					<select value={selectedEffect} on:change={handleEffectChange}>
-						{#each effectsList as effect}
-							<option value={effect}>{effect}</option>
-						{/each}
-					</select>
-					<ChevronIcon />
+					<Toggle checked={device.turnedOn} onChange={(val) => toggle(val, device, true)} />
 				</div>
-			{/if}
-		</div>
-	</section>
-{:else}
-	<section>
-		<a href="/"><button class="back-button enhance-click"><ChevronIcon /></button></a>
-		<p class="error">There was a problem fetching this device.</p>
-	</section>
-{/if}
+
+				<div class="row">
+					<div class="card slider-card">
+						<div class="slider">
+							<BulbIcon />
+							<SliderInput
+								value={device.brightness}
+								min={1}
+								onChange={(val) => changeBrightness(val, device, true)}
+							/>
+						</div>
+					</div>
+
+					<div class="card color-card">
+						<ColorInput value={device.color} onChange={(val) => changeColor(val, device, true)} />
+					</div>
+
+					{#if device.type === DeviceType.YEELIGHT}
+						<div class="card slider-card">
+							<div class="slider">
+								<TemperatureIcon />
+								<SliderInput
+									value={device.colorTemperature}
+									min={1700}
+									max={6500}
+									onChange={(val) => changeColorTemperature(val, device, true)}
+								/>
+							</div>
+						</div>
+					{/if}
+
+					{#if device.type === DeviceType.NANOLEAF && effectsList}
+						<div class="card select-card">
+							<div class="effects-select">
+								<select value={selectedEffect} on:change={handleEffectChange}>
+									{#each effectsList as effect}
+										<option value={effect}>{effect}</option>
+									{/each}
+								</select>
+								<ChevronIcon />
+							</div>
+						</div>
+					{/if}
+				</div>
+			</div>
+		{:else}
+			<p class="error">There was a problem fetching this device.</p>
+		{/if}
+	</div>
+</section>
 
 <style lang="scss">
 	section {
-		padding: var(--spacing-s);
+		padding-top: var(--spacing-s);
+	}
 
-		@media screen and (max-width: 400px) {
-			padding: var(--spacing-xs);
+	.page-title {
+		width: 100%;
+		padding: 0 var(--spacing-l);
+		text-align: center;
+		white-space: nowrap;
+		box-sizing: border-box;
+	}
+
+	.device {
+		width: 100%;
+		margin-top: var(--spacing-s);
+		box-sizing: border-box;
+	}
+
+	.card {
+		background: var(--grey-gradient);
+		padding: var(--spacing-s);
+		box-sizing: border-box;
+		text-align: center;
+	}
+
+	.first-card {
+		padding-top: var(--spacing-m);
+		padding-bottom: var(--spacing-m);
+
+		.icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			:global(svg) {
+				width: auto;
+				max-width: 60%;
+				height: 15rem;
+			}
+		}
+
+		:global(.toggle) {
+			margin-top: var(--spacing-s);
+		}
+	}
+
+	.row {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		gap: 0 var(--spacing-xs);
+		margin-top: var(--spacing-xs);
+
+		.slider-card,
+		.select-card {
+			width: 42%;
+		}
+
+		.color-card {
+			width: 16%;
+			padding: 2rem;
+		}
+
+		.select-card {
+			padding: 0;
+		}
+
+		.card {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
+	.slider {
+		display: flex;
+		align-items: center;
+
+		:global(svg) {
+			height: 3rem;
+			width: auto;
+			color: var(--color-grey);
+			margin-right: var(--spacing-xs);
+		}
+	}
+
+	.effects-select {
+		position: relative;
+
+		select {
+			width: 100%;
+			font-size: 1.5rem;
+			color: var(--color-white);
+			padding: var(--spacing-s) 5rem var(--spacing-s) var(--spacing-s);
+			background: none;
+			border: none;
+			outline: none;
+			-webkit-appearance: none;
+			appearance: none;
+		}
+
+		:global(svg) {
+			position: absolute;
+			width: 1rem;
+			height: auto;
+			top: 50%;
+			right: 3rem;
+			transform: translateY(-50%) rotate(-90deg);
 		}
 	}
 
@@ -132,128 +258,39 @@
 		text-align: center;
 	}
 
-	.device {
-		margin-top: var(--spacing-l);
-	}
-
-	.top-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-
-		:global(.color-preview) {
-			width: 4rem;
-			height: 4rem;
+	@media screen and (min-width: 1200px) {
+		section {
+			padding: var(--spacing-s);
 		}
 
-		:global(.toggle-switch) {
-			width: 4.5rem;
-			height: 2.7rem;
+		.page-title {
+			text-align: center;
+			padding: 0;
+			width: unset;
 		}
 
-		:global(.slider:before) {
-			width: 2.7rem;
-			height: 2.7rem;
-		}
-
-		:global(input:checked + .slider:before) {
-			transform: translateX(1.8rem);
+		.device {
+			margin-top: 0;
 		}
 	}
 
-	.slider-container {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-s);
-	}
-
-	.slider {
-		display: flex;
-		align-items: center;
-		flex: 1;
-
-		:global(svg) {
-			width: auto;
-			height: 3.5rem;
-			margin-right: var(--spacing-xs);
-		}
-
-		:global(svg path) {
-			stroke: var(--color-grey-400);
+	@media screen and (max-width: 800px) {
+		.page-title {
+			padding: 0;
 		}
 	}
 
-	.effects-select {
-		position: relative;
-		margin-top: var(--spacing-s);
+	@media screen and (max-width: 475px) {
+		.row {
+			flex-direction: column;
+			gap: var(--spacing-xs);
 
-		select {
-			width: 100%;
-			height: 5rem;
-			font-size: 1.5rem;
-			background: var(--color-black-600);
-			color: var(--color-white);
-			border: none;
-			padding: var(--spacing-xxs) var(--spacing-xs);
-			border-radius: var(--main-border-radius);
-			outline: none;
-			-webkit-appearance: none;
-			appearance: none;
-		}
+			.card {
+				width: 100%;
 
-		:global(svg) {
-			position: absolute;
-			width: 1rem;
-			height: auto;
-			top: 50%;
-			right: 2rem;
-			transform: translateY(-50%) rotate(-90deg);
-		}
-	}
-
-	.icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: var(--spacing-s) 0;
-
-		:global(svg) {
-			width: auto;
-			max-width: 85%;
-			height: 20rem;
-		}
-
-		:global(svg path),
-		:global(svg rect) {
-			fill: var(--color-grey-600);
-		}
-
-		:global(svg.leds rect:not(:first-child)) {
-			fill: var(--color-grey-400);
-		}
-
-		&.offline {
-			:global(svg path),
-			:global(svg rect) {
-				fill: var(--color-black-800);
-			}
-
-			:global(svg.leds rect:not(:first-child)) {
-				fill: var(--color-black-400);
-			}
-		}
-
-		&.active {
-			:global(svg path),
-			:global(svg rect) {
-				fill: var(--color-green);
-			}
-
-			:global(svg.leds rect:first-child) {
-				fill: var(--color-white);
-			}
-			:global(svg.leds rect:not(:first-child)) {
-				fill: var(--color-green);
+				&.color-card {
+					order: -1;
+				}
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { browser } from '$app/env'
 	import { devices, isLoadingDevices } from '$stores/devices'
 	import { shapesDevice } from '$stores/shapes'
 

@@ -163,3 +163,10 @@ export enum NotificationTypes {
 	ERROR = 'ERROR',
 	SUCCESS = SUCCESS
 }
+
+export interface SystemInformation {
+	cpuUsage?: number
+	ramUsage?: number
+	diskUsage?: number
+	cpuTemperature?: number
+}

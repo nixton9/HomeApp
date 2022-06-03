@@ -1,4 +1,8 @@
-<div class="loading">
+<script lang="ts">
+	export let centered: boolean = false
+</script>
+
+<div class={centered ? 'loading centered' : 'loading'}>
 	<div />
 	<div />
 	<div />
@@ -16,6 +20,14 @@
 		position: relative;
 		width: 8em;
 		height: 8em;
+
+		&.centered {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 0.8rem;
+		}
 	}
 	.loading div {
 		position: absolute;

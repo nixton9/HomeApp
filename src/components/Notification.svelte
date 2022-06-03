@@ -20,38 +20,36 @@
 	.notification {
 		position: fixed;
 		top: 3rem;
-		left: 50%;
-		width: fit-content;
-		max-width: 90%;
+		right: 3rem;
+		max-width: 42rem;
 		display: flex;
 		align-items: center;
 		gap: 2rem;
-		padding: 2rem var(--spacing-s);
-		background: var(--color-black-600);
+		padding: var(--spacing-s);
+		background: var(--color-black);
 		border-radius: var(--main-border-radius);
 		box-shadow: var(--big-box-shadow);
-		transform: translateX(-50%);
 		box-sizing: border-box;
 		animation: slideIn 0.5s ease;
 
 		:global(svg) {
 			width: auto;
-			height: 3.3rem;
+			height: 4rem;
 			flex-shrink: 0;
 		}
 
 		p {
 			font-size: 1.4rem;
-			line-height: 2.2rem;
+			line-height: 2.4rem;
 		}
 	}
 
 	@keyframes slideIn {
 		0% {
-			transform: translate(-50%, -17rem);
+			transform: translateY(-17rem);
 		}
 		100% {
-			transform: translate(-50%, 0);
+			transform: translateY(0);
 		}
 	}
 </style>

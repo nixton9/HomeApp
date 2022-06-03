@@ -15,7 +15,7 @@
 
 <div class="color-input">
 	<label>
-		<div class={previewClassNames} style="background-color: {value || '#3c3e58'}" />
+		<div class={previewClassNames} style="background-color: {value || 'var(--color-black'}" />
 		<input
 			type="color"
 			id="colorinput"
@@ -29,8 +29,8 @@
 <style lang="scss">
 	.color-preview {
 		position: relative;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 4.5rem;
+		height: 4.5rem;
 		border-radius: 50%;
 		overflow: hidden;
 		cursor: pointer;
@@ -49,13 +49,13 @@
 		&.no-value:after {
 			content: '';
 			width: 125%;
-			height: 3px;
+			height: 4px;
 			position: absolute;
 			top: 0;
 			left: 2px;
 			transform: rotate(45deg);
 			transform-origin: top left;
-			background: var(--color-red);
+			background: var(--grey-gradient);
 		}
 	}
 

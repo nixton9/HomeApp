@@ -35,10 +35,14 @@
 </main>
 
 <style lang="scss">
+	main {
+		margin: var(--spacing-s) 0;
+	}
 	.menu-icon {
-		position: absolute;
-		top: var(--spacing-s);
-		right: var(--spacing-s);
+		position: fixed;
+		top: var(--spacing-xs);
+		right: var(--spacing-xs);
+		z-index: 111;
 
 		&:hover :global(svg circle),
 		&:active :global(svg circle) {
@@ -46,6 +50,16 @@
 		}
 		:global(svg circle) {
 			transition: transform 0.3s ease;
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		main {
+			display: flex;
+			margin: 0;
+		}
+		.menu-icon {
+			display: none;
 		}
 	}
 </style>

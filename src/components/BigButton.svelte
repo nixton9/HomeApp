@@ -1,14 +1,18 @@
 <script lang="ts">
 	export let text: string
-	export let onClick: () => void
+	export let onClick: () => void = () => null
 	export let accent: boolean = false
+	export let disabled: boolean = false
+	export let formButton: boolean = false
 </script>
 
 <button
 	on:click={onClick}
 	class={accent ? 'accent big-button contrast-hover' : 'big-button contrast-hover'}
+	type={formButton ? 'submit' : 'button'}
+	{disabled}
 >
-	<slot name="icon" />
+	<slot name="icon" class="icon" />
 	<span>{text}</span>
 </button>
 
@@ -17,15 +21,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
 		padding: 2.5rem;
-		background: var(--color-black-600);
-		box-shadow: var(--main-box-shadow);
+		background: var(--grey-gradient);
 		border-radius: var(--main-border-radius);
 		cursor: pointer;
 
+		&:disabled {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
 		&.accent {
 			background: var(--color-green);
+		}
+
+		:global(svg) {
+			margin-right: var(--spacing-xxs);
 		}
 
 		span {
@@ -34,7 +45,6 @@
 			letter-spacing: 0.03rem;
 			color: var(--color-white);
 			text-transform: uppercase;
-			margin-top: var(--spacing-xxs);
 		}
 	}
 </style>

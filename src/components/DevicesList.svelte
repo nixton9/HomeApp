@@ -22,21 +22,45 @@
 
 <style lang="scss">
 	.devices-list {
-		width: 100%;
-	}
-
-	:global(.device-card) {
-		margin: 2rem auto;
-		flex: 1;
-	}
-
-	@media screen and (min-width: 500px) {
-		:global(.device-card) {
-			max-width: 34rem;
-		}
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+		gap: var(--spacing-xs);
+		margin-top: var(--spacing-xs);
 	}
 
 	.no-data {
 		margin-top: var(--spacing-s);
+	}
+
+	:global(.device-card) {
+		width: calc(33% - 0.75rem);
+		height: calc(33% - 0.75rem);
+		min-height: 18rem;
+	}
+
+	@media screen and (min-width: 1200px) {
+		.devices-list {
+			max-height: calc(100vh - 9rem);
+			overflow: auto;
+			margin-top: 0;
+			-ms-overflow-style: none; /* for Internet Explorer, Edge */
+			scrollbar-width: none;
+		}
+
+		.devices-list::-webkit-scrollbar {
+			display: none;
+		}
+
+		:global(.device-card) {
+			width: calc(50% - 0.75rem);
+			min-height: unset;
+		}
+	}
+
+	@media screen and (max-width: 785px) {
+		:global(.device-card) {
+			width: calc(50% - 0.75rem);
+		}
 	}
 </style>

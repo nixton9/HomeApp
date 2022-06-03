@@ -1,92 +1,99 @@
 <script lang="ts">
 	import DataFetcher from '$components/DataFetcher.svelte'
-	import Greeting from '$components/Greeting.svelte'
-	import BigButton from '$components/BigButton.svelte'
-	import Tabs from '$components/Tabs.svelte'
+	import IntroCard from '$components/IntroCard.svelte'
+	import SystemInformation from '$components/SystemInformation.svelte'
 	import DevicesList from '$components/DevicesList.svelte'
 	import ModesList from '$components/ModesList.svelte'
 	import LoadingSpinner from '$components/LoadingSpinner.svelte'
-	import TurnOnIcon from '$icons/turnon.svelte'
-	import TurnOffIcon from '$icons/turnoff.svelte'
-	import { devices, isLoadingDevices } from '$stores/devices'
-	import { setMessage } from '$stores/notifications'
-	import { toggle } from '$utils/deviceRequests/index'
-	import { HomeTabs, Device } from '$lib/types.d'
-	import { capitalizeWord } from 'nixtons-utils'
-
-	let devicesList: Device[]
-	devices.subscribe((value) => (devicesList = value))
+	import { isLoadingDevices } from '$stores/devices'
 
 	let isLoading: boolean
 	isLoadingDevices.subscribe((value) => (isLoading = value))
-
-	let activeTab: HomeTabs = HomeTabs.DEVICES
-	const homeTabs = Object.keys(HomeTabs).map((tab) => capitalizeWord(tab.toLowerCase()))
-	const changeTab = (tab: HomeTabs) => (activeTab = tab.toUpperCase() as HomeTabs)
-
-	const handleToggleAll = async (state: boolean) => {
-		await devicesList.forEach((dev) => toggle(state, dev))
-		setMessage(`All devices turned ${state ? 'on' : 'off'}!`)
-	}
 </script>
 
 <svelte:head>
 	<title>Home App</title>
 </svelte:head>
 
-<section>
-	<DataFetcher />
+<DataFetcher />
 
-	<Greeting />
+<div class="dashboard">
+	<section class="main">
+		{#if isLoading}
+			<LoadingSpinner centered />
+		{:else}
+			<div class="intro-system">
+				<IntroCard />
+				<SystemInformation />
+			</div>
 
-	{#if isLoading}
-		<LoadingSpinner />
-	{:else}
-		<div class="main-buttons">
-			<BigButton text="Turn on all" onClick={() => handleToggleAll(true)} accent>
-				<TurnOnIcon slot="icon" />
-			</BigButton>
-
-			<BigButton text="Turn off all" onClick={() => handleToggleAll(false)}>
-				<TurnOffIcon slot="icon" />
-			</BigButton>
-		</div>
-
-		<Tabs tabs={homeTabs} {activeTab} {changeTab} />
-
-		{#if activeTab === HomeTabs.DEVICES}
 			<DevicesList />
-		{:else if activeTab === HomeTabs.MODES}
-			<ModesList />
 		{/if}
-	{/if}
-</section>
+	</section>
+
+	<section class="side">
+		<ModesList />
+	</section>
+</div>
 
 <style lang="scss">
-	section {
-		padding: var(--spacing-s);
+	.main {
+		position: relative;
+		width: 100%;
+		min-height: 50vh;
+		margin: 0;
+		padding: var(--spacing-xs);
+		box-sizing: border-box;
 	}
 
-	:global(.loading) {
-		position: absolute !important;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		font-size: 0.8rem;
+	.side {
+		margin: 0 var(--spacing-xs);
+		padding: var(--spacing-s) var(--spacing-xs);
+		background: var(--grey-gradient);
+		border-radius: var(--main-border-radius);
+		box-sizing: border-box;
 	}
 
-	.main-buttons {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-s);
-		margin-top: var(--spacing-s);
+	.intro-system {
+		height: 100%;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--spacing-xs);
+	}
 
-		:global(.big-button) {
-			width: 50%;
+	@media screen and (min-width: 1200px) {
+		.dashboard {
+			display: flex;
+			flex-direction: row;
+			flex: 1;
 		}
-	}
 
-	:global(.tabs) {
-		margin-top: var(--spacing-s);
+		.main {
+			display: grid;
+			grid-template-columns: 3fr 4fr;
+			gap: var(--spacing-xs);
+			width: 70%;
+			max-height: 100vh;
+			margin: var(--spacing-s) 0;
+			background: var(--color-black);
+			border-radius: var(--main-border-radius);
+		}
+
+		.side {
+			width: 30%;
+			max-height: 100vh;
+			background: unset;
+			padding: var(--spacing-s) 0;
+			margin: 0;
+			border-radius: 0;
+		}
+
+		.intro-system {
+			grid-template-rows: 4fr 3fr;
+
+			:global(.big-button) {
+				background: var(--color-black);
+			}
+		}
 	}
 </style>

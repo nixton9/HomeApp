@@ -4,10 +4,9 @@
 	import { goto } from '$app/navigation'
 	import DataFetcher from '$components/DataFetcher.svelte'
 	import ColorInput from '$components/ColorInput.svelte'
-	import FormButton from '$components/FormButton.svelte'
+	import BigButton from '$components/BigButton.svelte'
 	import LoadingSpinner from '$components/LoadingSpinner.svelte'
 	import ChevronIcon from '$icons/chevron.svelte'
-	import EyeIcon from '$icons/eye.svelte'
 	import { devices, isLoadingDevices } from '$stores/devices'
 	import { modes } from '$stores/modes'
 	import { setMessage, setError } from '$stores/notifications'
@@ -29,7 +28,7 @@
 	modes.subscribe((modes) => (modesList = modes))
 	$: selectedMode = modeId === '-' ? null : modesList.find((mode) => mode.id === modeId)
 
-	$: pageTitle = selectedMode ? `Edit mode ${selectedMode.name}` : 'Add new mode'
+	$: pageTitle = selectedMode ? `Edit scene ${selectedMode.name}` : 'Create new scene'
 	$: name = selectedMode ? selectedMode.name : ''
 	$: devicesColors = selectedMode ? selectedMode.devicesColors : []
 
@@ -99,120 +98,161 @@
 
 <DataFetcher />
 
-<section>
+<section class="page">
 	<a href="/"><button class="back-button enhance-click"><ChevronIcon /></button></a>
 
-	<h2 class="page-title">{pageTitle}</h2>
+	<div class="page-content">
+		<h2 class="page-title">{pageTitle}</h2>
 
-	{#if isLoading}
-		<LoadingSpinner />
-	{:else}
-		<form on:submit|preventDefault={handleForm} class="styled-form">
-			<div class="input-group">
-				<label for="modenameinput">Mode name</label>
-				<input
-					id="modenameinput"
-					class="input"
-					bind:value={name}
-					placeholder="Write a name"
-					required
-				/>
-			</div>
-
-			<div class="input-group devices-colors">
-				{#each sortedDevices as device}
-					<div>
-						<label for="colorinput">{device.name}</label>
-						<div class="device-input-color">
-							<ColorInput
-								value={getDeviceColor(device)}
-								onChange={(val) => updateDeviceColor(val, device.address)}
-							/>
-							{#if getDeviceColor(device)}
-								<span class="delete-color" on:click={() => updateDeviceColor(null, device.address)}
-									>+</span
-								>
-							{/if}
-						</div>
+		{#if isLoading}
+			<LoadingSpinner centered />
+		{:else}
+			<form on:submit|preventDefault={handleForm} class="styled-form page-content-flex">
+				<div class="left">
+					<div class="input-group">
+						<input
+							id="modenameinput"
+							class="input"
+							bind:value={name}
+							placeholder="Write a name for the scene"
+							required
+						/>
 					</div>
-				{/each}
-			</div>
+				</div>
 
-			<div class="button-container">
-				<button
-					type="button"
-					class="preview-btn"
-					on:click={previewMode}
-					disabled={devicesColors.length === 0}
-				>
-					<EyeIcon />
-				</button>
-				<FormButton text="Submit" />
-			</div>
-		</form>
-	{/if}
+				<div class="right">
+					<div class="devices-colors">
+						{#each sortedDevices as device}
+							<div class="device-color">
+								<label for="colorinput">{device.name}</label>
+
+								<ColorInput
+									value={getDeviceColor(device)}
+									onChange={(val) => updateDeviceColor(val, device.address)}
+								/>
+
+								<div
+									class={getDeviceColor(device) ? 'delete' : 'delete disabled'}
+									on:click={() => updateDeviceColor(null, device.address)}
+								>
+									<span>+</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+
+					<div class="buttons">
+						<BigButton text="Preview" onClick={previewMode} disabled={devicesColors.length === 0} />
+						<BigButton text="Create Scene" accent formButton />
+					</div>
+				</div>
+			</form>
+		{/if}
+	</div>
 </section>
 
 <style lang="scss">
 	section {
 		padding: var(--spacing-s);
+		min-height: 80vh;
 	}
 
-	:global(.loading) {
-		position: absolute !important;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		font-size: 0.8rem;
+	.styled-form {
+		margin-top: var(--spacing-m);
+
+		.input-group input {
+			margin-top: 0;
+		}
 	}
 
 	.devices-colors {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		place-items: center;
-		gap: var(--spacing-m) 0;
+		gap: var(--spacing-xs);
 	}
 
-	:global(.color-preview) {
-		margin-top: var(--spacing-xs);
-	}
-
-	:global(.color-preview:not(.full-width)) {
-		width: 4rem !important;
-		height: 4rem !important;
-		margin: var(--spacing-xs) auto 0 auto;
-	}
-
-	.device-input-color {
+	.device-color {
 		position: relative;
-	}
-
-	.delete-color {
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		transform: translateX(-50%) rotate(45deg);
-		padding: var(--spacing-xxs);
-		font-size: 2rem;
-		font-weight: var(--font-weight-black);
-		z-index: 11;
-		cursor: pointer;
-	}
-
-	.preview-btn {
+		width: 14rem;
+		height: 14rem;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: var(--color-black-600);
 		padding: var(--spacing-xs);
+		background: var(--grey-gradient);
 		border-radius: var(--main-border-radius);
-		box-shadow: var(--main-box-shadow);
-		margin-right: var(--spacing-xxs);
-		cursor: pointer;
+		box-sizing: border-box;
 
-		&:disabled {
-			opacity: 0.4;
-			cursor: default;
+		label {
+			position: absolute;
+			top: 1.75rem;
+			font-size: 1.2rem;
+			line-height: 1;
+			font-weight: var(--font-weight-medium);
+		}
+
+		:global(.color-preview) {
+			width: 5rem;
+			height: 5rem;
+		}
+	}
+
+	.delete {
+		position: absolute;
+		bottom: 1rem;
+		&.disabled {
+			opacity: 0.2;
+			pointer-events: none;
+		}
+
+		span {
+			display: block;
+			font-size: 1.9rem;
+			line-height: 1;
+			font-weight: var(--font-weight-medium);
+			transform: rotate(45deg);
+		}
+	}
+
+	.buttons {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+		margin-top: var(--spacing-m);
+
+		:global(.big-button) {
+			width: 50%;
+		}
+	}
+
+	@media screen and (max-width: 1200px) {
+		.page-title {
+			text-align: center;
+		}
+
+		.styled-form {
+			max-width: 61rem;
+			margin: var(--spacing-m) auto;
+		}
+
+		.input {
+			margin: 0 auto;
+		}
+
+		.right :global(.devices-colors) {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			margin-top: var(--spacing-m);
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		.styled-form {
+			justify-content: space-between;
 		}
 	}
 </style>

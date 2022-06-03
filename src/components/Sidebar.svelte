@@ -1,8 +1,10 @@
 <script lang="ts">
-	import MenuCloseIcon from '$icons/menuclose.svelte'
-	import PlusIcon from '$icons/plus.svelte'
-	import BulbIcon from '$icons/bulb.svelte'
-	import UserIcon from '$icons/user.svelte'
+	import AppIcon from '$icons/homeapp.svelte'
+	import HomeIcon from '$icons/home.svelte'
+	import DeviceIcon from '$icons/device.svelte'
+	import SceneIcon from '$icons/scene.svelte'
+	import SettingsIcon from '$icons/settings.svelte'
+	import { page } from '$app/stores'
 
 	export let isOpen: boolean
 	export let close: () => void
@@ -14,19 +16,34 @@
 
 <div class={isOpen ? 'sidebar open' : 'sidebar'}>
 	<div class="header">
-		<h3>Options</h3>
-		<div class="menu-close-icon enhance-click" on:click={() => close()}>
-			<MenuCloseIcon />
-		</div>
+		<AppIcon />
 	</div>
 
 	<nav>
 		<ul>
-			<a href="/add-mode/-" on:click={() => close()}><li><PlusIcon /> Add mode</li></a>
-			<a href="/set-shapes" on:click={() => close()}><li><BulbIcon /> Set Shapes device</li></a>
-			<a href="/set-name" on:click={() => close()}><li><UserIcon /> Set User name</li></a>
+			<a href="/" on:click={() => close()} class:active={$page.url.pathname === '/'}>
+				<li>
+					<div class="icon"><HomeIcon /></div>
+				</li>
+			</a>
+			<a href="/devices" on:click={() => close()} class:active={$page.url.pathname === '/devices'}>
+				<li>
+					<div class="icon"><DeviceIcon /></div>
+				</li>
+			</a>
+			<a href="/modes" on:click={() => close()} class:active={$page.url.pathname === '/modes'}>
+				<li>
+					<div class="icon"><SceneIcon /></div>
+				</li>
+			</a>
 		</ul>
 	</nav>
+
+	<div class="footer">
+		<a href="/settings" on:click={() => close()} class:active={$page.url.pathname === '/settings'}>
+			<div class="icon settings-icon"><SettingsIcon /></div>
+		</a>
+	</div>
 </div>
 
 <style lang="scss">
@@ -41,19 +58,21 @@
 
 	.sidebar {
 		position: fixed;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		box-sizing: border-box;
 		height: 100vh;
-		width: 55vw;
-		min-width: 20rem;
+		width: 8.3rem;
 		top: 0;
 		right: 0;
-		padding: var(--spacing-s) var(--spacing-xs) var(--spacing-s) var(--spacing-s);
-		background-color: var(--color-black-600);
+		padding: var(--spacing-s) var(--spacing-xs);
+		background: var(--grey-gradient);
 		transition: transform 0.3s ease;
 		transform: translateX(100%);
 		z-index: 11;
-		box-shadow: -6px 15px 11px rgb(36, 38, 49);
-		border-top-left-radius: var(--main-border-radius);
-		border-bottom-left-radius: var(--main-border-radius);
+		box-shadow: -2px 10px 16px rgba(0, 0, 0, 0.2);
 
 		&.open {
 			transform: translateX(0);
@@ -61,45 +80,100 @@
 	}
 
 	.header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-
-		h3 {
-			font-size: 2rem;
-			font-weight: var(--font-weight-bold);
-		}
-
-		.menu-close-icon {
-			position: relative;
-		}
+		color: var(--color-green);
 	}
 
 	nav {
-		margin-top: var(--spacing-l);
+		margin-bottom: var(--spacing-xl);
+	}
 
-		li {
-			display: flex;
-			align-items: center;
-			font-size: 1.5rem;
-			font-weight: var(--font-weight-regular);
-			margin: var(--spacing-xs) 0;
-			padding: var(--spacing-xs);
-			border-radius: var(--main-border-radius);
-			transition: background 0.25s ease;
-			cursor: pointer;
+	a {
+		display: block;
+		position: relative;
 
-			&:hover,
-			&:active,
-			&:focus {
-				background: var(--color-black-800);
-			}
+		&.active:before {
+			content: '';
+			position: absolute;
+			left: -1.6rem;
+			width: 0.5rem;
+			height: 100%;
+			background-color: var(--color-green);
+			border-radius: 50px;
+			display: none;
+		}
+	}
 
-			:global(svg) {
-				width: 2.2rem;
-				height: 2.2rem;
-				margin-right: var(--spacing-xs);
-			}
+	li {
+		display: flex;
+		align-items: center;
+		font-size: 1.5rem;
+		font-weight: var(--font-weight-regular);
+		margin: var(--spacing-xs) 0;
+		padding: var(--spacing-xs);
+		border-radius: 1rem;
+		transition: background 0.25s ease;
+		cursor: pointer;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background: var(--color-black);
+		}
+	}
+
+	.icon {
+		position: relative;
+
+		:global(svg) {
+			display: block;
+			width: 2.5rem;
+			height: 2.5rem;
+			color: var(--color-grey);
+		}
+	}
+
+	.active .icon {
+		:global(svg) {
+			color: var(--color-green);
+		}
+
+		&:after {
+			content: '';
+			background: rgba(105, 234, 173, 0.65);
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 60%;
+			height: 60%;
+			z-index: -1;
+			filter: blur(16px);
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	.settings-icon {
+		padding: var(--spacing-xs);
+
+		&:after {
+			opacity: 0.3;
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		.overlay  {
+			display: none;
+		}
+
+		.sidebar {
+			position: unset;
+			background: unset;
+			border-radius: 0;
+			box-shadow: unset;
+			transform: none;
+		}
+
+		a.active:before {
+			display: block;
 		}
 	}
 </style>

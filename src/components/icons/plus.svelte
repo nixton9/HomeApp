@@ -19,7 +19,7 @@
 				height="14.26"
 				rx="1.485"
 				transform="translate(39.644 650)"
-				fill="#69eaad"
+				fill="currentColor"
 			/>
 			<rect
 				id="Retângulo_69"
@@ -28,7 +28,7 @@
 				height="14.26"
 				rx="1.485"
 				transform="translate(48.26 655.644) rotate(90)"
-				fill="#69eaad"
+				fill="currentColor"
 			/>
 		</g>
 	</g>

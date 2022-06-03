@@ -24,7 +24,7 @@
 		position: relative;
 		font-size: 1.6rem;
 		font-weight: var(--font-weight-black);
-		color: var(--color-grey-600);
+		color: var(--color-grey);
 		margin-right: var(--spacing-s);
 		transition: color 0.25s ease;
 		cursor: pointer;

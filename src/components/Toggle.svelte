@@ -39,15 +39,10 @@
 		bottom: 0;
 		right: 0;
 		left: 0;
-		background-color: var(--color-black-400);
+		background-color: var(--color-grey);
 		border-radius: 3.4rem;
 		-webkit-transition: 0.4s;
 		transition: 0.4s;
-
-		&:hover::before,
-		&:active::before {
-			background-color: var(--color-grey-400);
-		}
 	}
 
 	.slider:before {
@@ -57,21 +52,22 @@
 		width: 2rem;
 		left: 0;
 		bottom: 03;
-		background-color: var(--color-grey-600);
+		background-color: var(--color-black);
 		border-radius: 50%;
 		transition: all 0.4s ease;
 	}
 
 	input:checked + .slider:before {
-		background-color: var(--color-green);
+		background-color: var(--color-white);
 		transform: translateX(1.5rem);
 	}
 
 	.disabled {
-		opacity: 0.2;
+		opacity: 0.3;
 
 		.slider {
 			cursor: default;
+			pointer-events: none;
 		}
 	}
 </style>

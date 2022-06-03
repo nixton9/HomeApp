@@ -46,7 +46,7 @@ const toggleGovee = async (
 			if (data.success) {
 				handleDeviceUpdate(state, address, withNotification)
 			} else {
-				setError(data.error)
+				withNotification && setError(data.error)
 			}
 		})
 }
@@ -67,7 +67,7 @@ const toggleNanoleaf = async (state: boolean, address: string, withNotification:
 			if (data.success) {
 				handleDeviceUpdate(state, address, withNotification)
 			} else {
-				setError(data.error)
+				withNotification && setError(data.error)
 			}
 		})
 }
@@ -93,7 +93,7 @@ const toggleYeelight = async (
 			if (data.success) {
 				handleDeviceUpdate(state, address, withNotification)
 			} else {
-				setError(data.error)
+				withNotification && setError(data.error)
 			}
 		})
 }

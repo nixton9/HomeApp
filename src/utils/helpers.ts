@@ -7,6 +7,11 @@ export const isDeviceOffline = (err: { message: string }) =>
 export const hasProperty = (obj: any, prop: string) =>
 	Object.prototype.hasOwnProperty.call(obj, prop)
 
+export const getCurrentTime = (): string => {
+	const date = new Date()
+	return `${date.getHours()}:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`
+}
+
 export const HSBToRGB = (
 	hue: number,
 	saturation: number,
@@ -77,6 +82,25 @@ export const debounce = (func: (arg?: any) => void, timeout = 300) => {
 			func.apply(this, args)
 		}, timeout)
 	}
+}
+
+export const getPercentage = (min: number, max: number, val: number): number =>
+	((val - min) * 100) / (max - min)
+
+export const getSystemInfoClass = (val: number, isPercentage = true): string => {
+	const thresholds = isPercentage ? [85, 70, 35] : [95, 75, 50]
+
+	if (val > thresholds[0]) {
+		return 'red'
+	}
+	if (val > thresholds[1]) {
+		return 'yellow'
+	}
+	if (val > thresholds[2]) {
+		return 'blue'
+	}
+
+	return 'green'
 }
 
 export const base64ToText = (hash: string): string => {
