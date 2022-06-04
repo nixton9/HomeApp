@@ -16,47 +16,57 @@
 <div class="system-card card">
 	<h2 class="card-title">System Information</h2>
 
-	<div class="items">
-		{#if systemInformation && isNumber(systemInformation.cpuUsage)}
+	{#if systemInformation}
+		<div class="items">
 			<div class="item">
 				<div class="bar {getSystemInfoClass(systemInformation.cpuTemperature, false)}" />
 				<div class="value">
-					<h5>{systemInformation.cpuTemperature}º <span>C</span></h5>
+					{#if isNumber(systemInformation.cpuTemperature)}
+						<h5>{systemInformation.cpuTemperature}º <span>C</span></h5>
+					{:else}
+						<h5>-</h5>
+					{/if}
 					<h6>Temperature</h6>
 				</div>
 			</div>
-		{/if}
 
-		{#if systemInformation && isNumber(systemInformation.cpuUsage)}
 			<div class="item">
 				<div class="bar {getSystemInfoClass(systemInformation.cpuUsage)}" />
 				<div class="value">
-					<h5>{systemInformation.cpuUsage} <span>%</span></h5>
+					{#if isNumber(systemInformation.cpuUsage)}
+						<h5>{systemInformation.cpuUsage} <span>%</span></h5>
+					{:else}
+						<h5>-</h5>
+					{/if}
 					<h6>CPU Usage</h6>
 				</div>
 			</div>
-		{/if}
 
-		{#if systemInformation && isNumber(systemInformation.ramUsage)}
 			<div class="item">
 				<div class="bar {getSystemInfoClass(systemInformation.ramUsage)}" />
 				<div class="value">
-					<h5>{systemInformation.ramUsage} <span>%</span></h5>
+					{#if isNumber(systemInformation.ramUsage)}
+						<h5>{systemInformation.ramUsage} <span>%</span></h5>
+					{:else}
+						<h5>-</h5>
+					{/if}
 					<h6>Memory Usage</h6>
 				</div>
 			</div>
-		{/if}
 
-		{#if systemInformation && isNumber(systemInformation.diskUsage)}
 			<div class="item">
 				<div class="bar {getSystemInfoClass(systemInformation.diskUsage)}" />
 				<div class="value">
-					<h5>{systemInformation.diskUsage} <span>%</span></h5>
+					{#if isNumber(systemInformation.diskUsage)}
+						<h5>{systemInformation.diskUsage} <span>%</span></h5>
+					{:else}
+						<h5>-</h5>
+					{/if}
 					<h6>Disk Usage</h6>
 				</div>
 			</div>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
