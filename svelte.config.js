@@ -1,5 +1,5 @@
 import preprocess from 'svelte-preprocess'
-import vercel from '@sveltejs/adapter-vercel'
+/* import vercel from '@sveltejs/adapter-vercel' */
 import { resolve } from 'path'
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -9,7 +9,7 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: vercel(),
+		/* adapter: vercel(), */
 
 		// Override http methods in the Todo forms
 		methodOverride: {
