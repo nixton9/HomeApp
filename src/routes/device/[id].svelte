@@ -27,21 +27,8 @@
 	let effectsList: string[]
 	let selectedEffect: string
 
-	/* 	devices.subscribe((value) => (devicesList = value))
-	$: device = devicesList.find((dev) => dev.address === deviceAddress) */
-
-	/* APAGAR */
-	const device = {
-		address: '1929',
-		name: 'Wall Light',
-		model: 'H6054',
-		online: false,
-		turnedOn: false,
-		brightness: 100,
-		color: 'rgb(255,255,255)',
-		type: 'govee'
-	}
-	/* APAGAR */
+	devices.subscribe((value) => (devicesList = value))
+	$: device = devicesList.find((dev) => dev.address === deviceAddress)
 
 	$: if (device && device.type === DeviceType.NANOLEAF) {
 		getEffects(device.address).then((res) => (effectsList = res.data))

@@ -169,7 +169,11 @@
 
 		.items {
 			grid-template-columns: 1fr 1fr;
-			margin-top: 4rem;
+			width: calc(100% - 6rem);
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 	}
 
