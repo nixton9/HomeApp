@@ -58,6 +58,10 @@
 		font-size: 1.7rem;
 		font-weight: var(--font-weight-semibold);
 		margin: 0 auto;
+
+		@media screen and (max-width: 450px) {
+			font-size: 1.55rem
+		}
 	}
 
 	.icon {

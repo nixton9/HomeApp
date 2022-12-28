@@ -4,7 +4,7 @@ import { browser } from '$app/env'
 const storedDevice =
 	browser && window.localStorage.getItem('shapesDevice')
 		? window.localStorage.getItem('shapesDevice')
-		: '192.168.0.3'
+		: '192.168.1.87'
 
 export const shapesDevice = writable(storedDevice)
 

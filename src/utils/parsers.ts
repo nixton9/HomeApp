@@ -39,7 +39,7 @@ export const parseNanoleafDevice = (
 	online?: boolean
 ): Device => ({
 	address: ip,
-	name: device.name,
+	name: parseNanoleafName(device.name),
 	model: device.model,
 	online: Boolean(online),
 	turnedOn: device.state.on.value,
@@ -74,6 +74,8 @@ const parseNanoleafEffectColor = (palette: NanoleafEffectPalette[]): string | nu
 
 	return null
 }
+
+const parseNanoleafName = (name: string): string => name.includes('Shapes') ? 'Shapes' : name 
 
 export const parseYeelightDevice = (device: YeelightDeviceData): Device => ({
 	address: device.ip,
