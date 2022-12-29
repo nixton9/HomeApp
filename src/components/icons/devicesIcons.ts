@@ -9,6 +9,7 @@ export const devicesIcons = {
 	H6054: Flow,
 	H6062: Glide,
 	H615A: Leds,
+	H618A: Leds,
 	color5: Yeelight,
 	color: Yeelight
 }
